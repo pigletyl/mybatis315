@@ -40,6 +40,7 @@ public class TeacherController {
         Page<Teacher> page = new Page();
         page.setPage(p);
         page.setSize(size);
+
         Map<String,Object> map = new HashMap<>();
         map.put("page",p);
         map.put("size",size);
