@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mybatisrealation.mapper.TeacherMapper">
+    <resultMap id="techer" type="com.example.mybatisrealation.bean.Teacher">
+        <id column="t_id" property="id"/>
+        <result column="t_name" property="name"/>
+        <result column="subject" property="subject"/>
+        <collection property="students" ofType="com.example.mybatisrealation.bean.Student">
+            <id column="student_id" property="id"/>
+            <result column="student_name" property="name"/>
+            <result column="age" property="age"/>
+        </collection>
+
+    </resultMap>
+    <resultMap id="st" type="com.example.mybatisrealation.bean.St">
+        <result column="student_name" property="sname"/>
+        <result column="t_name" property="tname"/>
+    </resultMap>
+    <select id="findAllTechers" resultMap="techer">
+        select t.*,s.student_name,s.age,s.student_id from teacher t,student s where t.t_id=s.t_id
+    </select>
+    <select id="findview" resultMap="st">
+        select * from st
+    </select>
+
+    <select id="findbyPage" parameterType="java.util.Map" resultType="com.example.mybatisrealation.bean.Teacher">
+        select * from   teacher  t
+    </select>
+</mapper>

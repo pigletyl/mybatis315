@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mybatisrealation.mapper.OrderMapper">
+    <resultMap id="orderOfUser" type="com.example.mybatisrealation.bean.Orders">
+        <id column="id" property="id"/>
+        <result column="user_Id" property="userId"/>
+        <result column="number" property="number"/>
+        <result column="createTime" property="createTime"/>
+        <result column="note" property="note"/>
+        <association property="user" javaType="com.example.mybatisrealation.bean.User">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="address" property="address"/>
+        </association>
+    </resultMap>
+    <select id="listAll"  resultMap="orderOfUser">
+        select o.*,t.username,t.address from orders o,user t where o.user_id=t.id
+    </select>
+</mapper>

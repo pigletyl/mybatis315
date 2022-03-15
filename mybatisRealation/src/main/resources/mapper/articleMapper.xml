@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mybatisrealation.mapper.ArticleMapper">
+    <resultMap id="aricle" type="com.example.mybatisrealation.bean.Aricle">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <collection property="categories" javaType="java.util.ArrayList" ofType="com.example.mybatisrealation.bean.Category">
+            <id column="cid" property="id"/>
+            <result column="name" property="name"/>
+        </collection>
+
+    </resultMap>
+   <resultMap id="catagorys" type="com.example.mybatisrealation.bean.Category">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <collection property="aricles" ofType="com.example.mybatisrealation.bean.Aricle">
+            <id column="aid" property="id"/>
+            <result column="title" property="title"/>
+            <result column="content" property="content"/>
+        </collection>
+
+    </resultMap>
+    <select id="findAricleById" parameterType="java.lang.String" resultMap="aricle">
+        SELECT t.*,c.id as cid,c.name
+        FROM article t LEFT JOIN  article_category ac on t.id=ac.article_id LEFT JOIN category c on ac.category_id=c.id where t.id=#{id}
+    </select>
+    <select id="findAllCategorys" resultMap="catagorys">
+
+        SELECT c.*,t.content,t.id as aid,t.title
+        FROM category c  LEFT JOIN  article_category ac on c.id=ac.category_id LEFT JOIN article t  on ac.article_id=t.id
+    </select>
+    <select id="findbyPage" parameterType="java.util.Map" resultType="com.example.mybatisrealation.bean.Aricle">
+        select * from   article t limit #{page},#{size}
+    </select>
+    <select id="getTotal" parameterType="java.util.Map" resultType="java.lang.Long">
+        select count(1) from   article t
+    </select>
+</mapper>
