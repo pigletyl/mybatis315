@@ -1,0 +1,17 @@
+spring:
+  kafka:
+    bootstrap-servers: ******************
+    producer:
+      acks: 1
+      batch-size: 16384
+      buffer-memory: 33554432
+      retries: 3
+    consumer:
+      group-id: consumerGroup
+      max-poll-records: 500
+      enable-auto-commit: false  # ??????offset?consumer_offset(?????????)
+      auto-offset-reset: earliest # ???????????
+    listener:
+      ack-mode: MANUAL_IMMEDIATE
+server:
+  port: 8888
